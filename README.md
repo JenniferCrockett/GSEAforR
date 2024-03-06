@@ -34,10 +34,26 @@ Here is the GSEA workflow using _GSEA functions for R_, **all in R:**
 
 ## Installation
 
+1. Clone this repository:
+
+```
+git clone https://github.com/JenniferCrockett/GSEAforR.git
+```
+
+2. In the command line terminal, run the `setup/installation.sh` script to set up a GSEAforR conda environment and install the necessary software.
+3. In the `src/gsea_wrapper_script.sh` script's _Magic Strings_ section: update the `CONDA_ENV=` variable to the path to your GSEAforR conda environment, and update the `PIPELINE=` variable to the path to your GSEAforR directory.  
+
+To see the path to the conda environment, run the following in the terminal:
+```
+conda info --env
+```
+
+4. In RStudio, run the `setup/installation.R` script to install the necessary R packages to run the GSEAforR functions in your R environment.
+
 ## Usage
 
-## Data sources
+## Sources
 
-1. GSEA source code: Accessed using the "command" feature of the GSEA app (https://www.gsea-msigdb.org/gsea/downloads.jsp)
-2. GSEA Hallmarks Gene Set: Downloaded from https://www.gsea-msigdb.org/gsea/msigdb/download_file.jsp?filePath=/msigdb/release/2023.2.Hs/h.all.v2023.2.Hs.symbols.gmt
-3. 
+1. GSEA v4.3.3 for the command line: Downloaded from https://www.gsea-msigdb.org/gsea/downloads.jsp
+2. GSEA run command: Accessed using the "command" feature of the GSEA app (https://www.gsea-msigdb.org/gsea/downloads.jsp)
+3. GSEA Hallmark Gene Set: Downloaded from https://www.gsea-msigdb.org/gsea/msigdb/human/collections.jsp#H (Gene Symbols)
