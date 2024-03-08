@@ -8,10 +8,10 @@
 
 Examples of why this information is useful to researchers:  
 
-* Researchers want to know how newly discovered pharmaceutical agents affect cells - which cellular pathways are turned on or off when the drug works on cells?
+* Researchers want to know how new potential pharmaceutical agents affect cells - which cellular pathways are turned on or off when the drug works on cells?
 * Researchers want to know why a particular gene mutation causes a genetic disease or cancer - which cellular pathways are turned on or off when the gene mutation is introduced into cells in the lab?
 
-### Why use _GSEA functions for R_
+### Why use _GSEA functions for R_?
 
 Normally researchers run GSEA as follows:  
 
@@ -32,6 +32,7 @@ Here is the GSEA workflow using _GSEA functions for R_, **all in R:**
 3. Run `normalize_and_run_GSEA()` to automatically perform: data normalization, data formatting for GSEA input, run the GSEA source code (open source code provided by the GSEA project), produce GSEA results files.
 4. Analyze the results files and plot the results using `load_GSEA_results()` and `plot_GSEA_results()`.  
 
+
 ## Installation
 
 1. Clone this repository:
@@ -41,14 +42,31 @@ git clone https://github.com/JenniferCrockett/GSEAforR.git
 ```
 
 2. In the command line terminal, run the `setup/installation.sh` script to set up a GSEAforR conda environment and install the necessary software.
-3. In the `src/gsea_wrapper_script.sh` script's _Magic Strings_ section: update the `CONDA_ENV=` variable to the path to your GSEAforR conda environment, and update the `PIPELINE=` variable to the path to your GSEAforR directory.  
+
+```
+# from the GSEAforR directory, run the following
+sh ./setup/installation.sh
+```
+
+3. In RStudio, run the `setup/installation.R` script to install the required R packages.
+
+4. In the `src/gsea_wrapper_script.sh` script's _Magic Strings_ section, update the following:  
+
+* Update the `CONDA_ENV=` variable to the path to your GSEAforR conda environment
+* Update the `RPATH=` variable to your R path
+* Update the `PIPELINE=` variable to the absolute path where you saved the GSEAforR directory
+
+Tips:  
 
 To see the path to the conda environment, run the following in the terminal:
 ```
 conda info --env
 ```
 
-4. In RStudio, run the `setup/installation.R` script to install the necessary R packages to run the GSEAforR functions in your R environment.
+To see your R path, run the following in the terminal:  
+```
+which R
+```
 
 ## Usage
 
@@ -57,3 +75,4 @@ conda info --env
 1. GSEA v4.3.3 for the command line: Downloaded from https://www.gsea-msigdb.org/gsea/downloads.jsp
 2. GSEA run command: Accessed using the "command" feature of the GSEA app (https://www.gsea-msigdb.org/gsea/downloads.jsp)
 3. GSEA Hallmark Gene Set: Downloaded from https://www.gsea-msigdb.org/gsea/msigdb/human/collections.jsp#H (Gene Symbols)
+4. Test data:

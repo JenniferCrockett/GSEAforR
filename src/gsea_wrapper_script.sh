@@ -43,8 +43,13 @@ Usage:
 # tip: to see the paths to your conda environments, run in terminal: conda info --env
 CONDA_ENV=/Users/jcrockett/opt/anaconda3/envs/GSEAforR
 
+# set your R path
+# tip: to see your R path, run in terminal: which R
+RPATH=/usr/local/bin/R
+
 # set the installation path where the GSEAforR directory is installed
-#PIPELINE=/absolute/path/to/my/install/location/of/GSEAforR``
+# if you don't set this, then you have to provide it in the -p argument every time you call the pipeline
+PIPELINE=/Users/jcrockett/Documents/jobs/code_sample_projects/GSEAforR
 
 #########################
 

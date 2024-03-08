@@ -1,0 +1,44 @@
+---
+title: "Test data preprocessing"
+author: "Jennifer Crockett"
+date: "2024-03-08"
+output: 
+  html_document:
+    toc: true
+    toc_float: true
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+library(here)
+library(biomaRt) # for a version that doesn't error out with latest tidyverse update - BiocManager::install('grimbough/biomaRt')
+```
+
+# Purpose
+
+Preprocessing the test dataset, to convert mouse gene names to human gene equivalents. GSEA only accepts human gene names, and by way of evolutionary conservation, most mouse genes have a human counterpart with a highly similar biological function.
+
+# Load data
+
+Load the raw gene expression dataset, downloaded from https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE72737
+
+See `GSEAforR/testing/Analysis_using_GSEA_for_R.Rmd` for more information about this dataset.
+
+```{r}
+raw_expr <- read_csv(here("testing", "data", "GSE72737_Dnmt3a_KI_counts_raw.csv.gz"), show_col_types = F) %>%
+  dplyr::rename(ensembl_gene_id=1)
+```
+
+# Data transformation
+
+Convert mouse gene identifiers to human gene names using the Biomart database.
+
+```{r}
+human <- useMart("ensembl", dataset = "hsapiens_gene_ensembl") # optional: host = "https://useast.ensembl.org"
+mouse <- useMart("ensembl", dataset = "mmusculus_gene_ensembl")
+
+m2h <- getLDS(attributes = "ensembl_gene_id", filters = "ensembl_gene_id", values = raw_expr$ensembl_gene_id, mart = mouse,
+              attributesL = "hgnc_symbol", martL = human, uniqueRows = T)
+```
+

@@ -1,0 +1,36 @@
+---
+title: "Analysis using GSEA for R"
+author: "Jennifer Crockett"
+date: "2024-03-08"
+output: 
+  html_document:
+    toc: true
+    toc_float: true
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+library(here)
+library(scico)
+library(lemon)
+```
+
+# Analysis description
+
+DNMT3A is a gene that is commonly mutated in acute myeloid leukemia (AML), a type of bone marrow/blood cancer. Researchers want to know why this gene mutation causes AML. A group of researchers introduced an AML-associated DNMT3A mutation into the bone marrow and blood cells of mice so that they could study the changes caused by this mutation, compared to normal mice. They collected specialized bone marrow/blood cells from the mice and performed RNA-seq gene expression analysis. Their dataset was deposited at a public gene expression database: https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE72737
+
+In this analysis, the _GSEA for R_ functions will be used to perform GSEA analysis on data from DNMT3A mutant vs. DNMT3A non-mutant (wild type, or 'WT') cells.
+
+## Dataset reference
+
+Guryanova OA, Shank K, Spitzer B, Luciani L et al. DNMT3A mutations promote anthracycline resistance in acute myeloid leukemia via impaired nucleosome remodeling. Nat Med 2016 Dec;22(12):1488-1495. PMID: 27841873
+
+# Load data
+
+Load the gene expression data and the sample metadata:
+
+```{r}
+expr <- read_csv(here("testing", "data", "GSE72737_Dnmt3a_KI_counts_raw.csv.gz"), show_col_types = F)
+```
+
