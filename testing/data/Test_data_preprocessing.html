@@ -1549,11 +1549,11 @@ if (identical(colnames(expr[,2:ncol(expr)]), meta_conversion$description, attrib
 <div id="save-processed-data" class="section level1">
 <h1>Save processed data</h1>
 <pre class="r"><code># expression data
-write_csv(expr, here(&quot;testing&quot;, &quot;data&quot;, &quot;GSE72737_preprocessed_counts_human_HGNC_symbols.csv&quot;))
+write_tsv(expr, here(&quot;testing&quot;, &quot;data&quot;, &quot;GSE72737_preprocessed_counts_human_HGNC_symbols.tsv&quot;))
 
 # metadata
 meta &lt;- dplyr::select(meta_conversion, sample_id, group)
-write_csv(meta, here(&quot;testing&quot;, &quot;data&quot;, &quot;GSE72737_preprocessed_metadata.csv&quot;))</code></pre>
+write_tsv(meta, here(&quot;testing&quot;, &quot;data&quot;, &quot;GSE72737_preprocessed_metadata.tsv&quot;))</code></pre>
 </div>
 
 

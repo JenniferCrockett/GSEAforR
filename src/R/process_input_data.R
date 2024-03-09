@@ -36,7 +36,7 @@ arguments <- docopt(doc)
 # source("../../testing/load_test_inputs.R")
 #####
 pipeline <- arguments$pipeline
-source(str_glue("{pipeline}/src/R/functions_gsea_automated.R"))
+source(str_glue("{pipeline}/src/R/source_functions.R"))
 
 # Data processing script begins
 
@@ -49,10 +49,20 @@ if (colnames(expr_data[,1]) != "hgnc_symbol") {
   stop("The first column of the expr_data TSV file must be 'hgnc_symbol'.")
 }
 
+### check if gene names in hgnc_symbol column are unique - if not, summarize
+if (any(duplicated(expr_data$hgnc_symbol))) {
+  print("Duplicate gene names detected in expression data hgnc_symbol. Summarizing gene-level counts by calculating the sum per gene.")
+  count_cols <- colnames(expr_data[,2:ncol(expr_data)])
+  expr_data <- group_by(expr_data, hgnc_symbol) %>%
+    summarise(across(all_of(count_cols), sum)) %>%
+    ungroup()
+}
+
 ### check no duplicate sample IDs
 if (any(duplicated(colnames(expr_data)))) {
   stop("Sample IDs in expr_data may not contain duplicates.")
 }
+
 
 ## Groups data
 groups <- read_tsv(arguments$groups, show_col_types = F)
@@ -63,25 +73,24 @@ if (paste(colnames(groups), collapse = ", ") != "sample_id, group") {
 }
 
 ### check "group" is character (categorical)
-### TODO: Later add option for continuous phenotype
 if (!is.character(groups$group)) {
   stop("The group variable must be categorical (character vector)")
-}
-
-### check that group names do not contain spaces
-if (any(grepl(" ", unique(groups$group)))) {
-  stop("Group names may not contain spaces.")
-}
-
-### check that sample names match to expr_data
-### non-matching could indicate user error in input data, better for them to fix it themselves
-if (!identical(groups$sample_id, colnames(select(expr_data, -hgnc_symbol)), attrib.as.set = F)) {
-  stop("Sample ID order does not match between expr_data and groups inputs.")
 }
 
 ### check that the provided 'control' group matches what is written in the groups data
 if (!any(arguments$control %in% groups$group)) {
   stop("The 'control' group argument (-c) does not match any of the group names in the groups.tsv file.")
+}
+
+### if group names contain any non-alphanumeric characters, remove them
+if (any(str_detect(unique(groups$group), "[^[:alnum:]]"))) {
+  print("Group names may not contain special characters or spaces - Removing these from group names.")
+  new_groups <- sapply(groups$group, function(x){str_replace_all(x, "[^[:alnum:]]", "")})
+  groups$group <- new_groups
+  
+  # also need to update the control argument
+  new_control <- str_replace_all(arguments$control, "[^[:alnum:]]", "")
+  arguments$control <- new_control
 }
 
 ## Use control group to relevel the factor group variable

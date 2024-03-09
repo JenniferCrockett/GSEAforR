@@ -92,10 +92,10 @@ if (identical(colnames(expr[,2:ncol(expr)]), meta_conversion$description, attrib
 
 ```{r}
 # expression data
-write_csv(expr, here("testing", "data", "GSE72737_preprocessed_counts_human_HGNC_symbols.csv"))
+write_tsv(expr, here("testing", "data", "GSE72737_preprocessed_counts_human_HGNC_symbols.tsv"))
 
 # metadata
 meta <- dplyr::select(meta_conversion, sample_id, group)
-write_csv(meta, here("testing", "data", "GSE72737_preprocessed_metadata.csv"))
+write_tsv(meta, here("testing", "data", "GSE72737_preprocessed_metadata.tsv"))
 ```
 
