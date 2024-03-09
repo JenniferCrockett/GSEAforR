@@ -30,15 +30,72 @@ raw_expr <- read_csv(here("testing", "data", "GSE72737_Dnmt3a_KI_counts_raw.csv.
   dplyr::rename(ensembl_gene_id=1)
 ```
 
-# Data transformation
+Load the sample metadata, describing the experimental group each sample belongs to.
+
+```{r}
+meta_raw <- read_csv(here("testing", "data", "GSE72737_raw_metadata.csv"), show_col_types = F)
+```
+
+
+# Gene name transformation
 
 Convert mouse gene identifiers to human gene names using the Biomart database.
 
 ```{r}
-human <- useMart("ensembl", dataset = "hsapiens_gene_ensembl") # optional: host = "https://useast.ensembl.org"
-mouse <- useMart("ensembl", dataset = "mmusculus_gene_ensembl")
+human <- useMart("ensembl", dataset = "hsapiens_gene_ensembl", host = "https://dec2021.archive.ensembl.org/")
+mouse <- useMart("ensembl", dataset = "mmusculus_gene_ensembl", host = "https://dec2021.archive.ensembl.org/")
 
 m2h <- getLDS(attributes = "ensembl_gene_id", filters = "ensembl_gene_id", values = raw_expr$ensembl_gene_id, mart = mouse,
               attributesL = "hgnc_symbol", martL = human, uniqueRows = T)
+
+m2h <- dplyr::rename(m2h, ensembl_gene_id = Gene.stable.ID, hgnc_symbol = HGNC.symbol)
+```
+
+```{r}
+# how many genes have human equivalents?
+(n_equivalent <- sum(!is.na(m2h$hgnc_symbol)))
+
+# fraction of input mouse genes with human equivalents?
+n_equivalent/nrow(raw_expr)
+
+# the rest are likely non-equivalent (non-conserved) genes
+```
+
+
+```{r}
+expr <- left_join(raw_expr, m2h, by = "ensembl_gene_id") %>%
+  filter(!is.na(hgnc_symbol)) %>%
+  dplyr::select(hgnc_symbol, everything(), -ensembl_gene_id)
+```
+
+# Sample name processing
+
+To improve the readability, refer to the metadata and update the sample names. We will name them based on their experimental group membership.
+
+```{r}
+# create unique sample names based on experimental groups
+meta_conversion <- mutate(meta_raw, sample_id = make.unique(group, sep = "_")) %>%
+  dplyr::select(-geo_id)
+
+# convert sample names in the expression data
+# check that the samples are in the same order for the expression data and metadata before converting
+if (identical(colnames(expr[,2:ncol(expr)]), meta_conversion$description, attrib.as.set = F)) {
+  new_colnames <- c(colnames(expr[,1]), meta_conversion$sample_id)
+  colnames(expr) <- new_colnames
+} else {
+  stop("Samples are not in the same order. Fix and then try sample name conversion again.")
+}
+```
+
+
+# Save processed data
+
+```{r}
+# expression data
+write_csv(expr, here("testing", "data", "GSE72737_preprocessed_counts_human_HGNC_symbols.csv"))
+
+# metadata
+meta <- dplyr::select(meta_conversion, sample_id, group)
+write_csv(meta, here("testing", "data", "GSE72737_preprocessed_metadata.csv"))
 ```
 

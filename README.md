@@ -70,6 +70,14 @@ which R
 
 ## Usage
 
+## Updates
+
+Gene set updates are released by MSigDB annually or biannually. The current gene set provided in this repository is the Hallmark Gene Set _h.all.v2023.2_. If you wish to manually update to a new file version:  
+
+1. Create a new versioned directory in the `GSEAforR/resources` directory.
+2. To the versioned directory, download the new gene set (gmt) file by clicking on the "Gene Symbols" link under the H: hallmark gene set section on the following web page: https://www.gsea-msigdb.org/gsea/msigdb/human/collections.jsp#H
+3. Create a symlink for this file in the `GSEAforR/resources/MSigDB_latest` directory, and remove the symlink to the old file.
+
 ## Sources
 
 1. GSEA v4.3.3 for the command line: Downloaded from https://www.gsea-msigdb.org/gsea/downloads.jsp

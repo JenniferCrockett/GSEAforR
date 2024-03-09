@@ -28,9 +28,34 @@ Guryanova OA, Shank K, Spitzer B, Luciani L et al. DNMT3A mutations promote anth
 
 # Load data
 
-Load the gene expression data and the sample metadata:
+Load the preprocessed data generated in `GSEAforR/testing/data/Test_data_preprocessing.Rmd`. This consists of gene expression data and sample metadata.
 
 ```{r}
-expr <- read_csv(here("testing", "data", "GSE72737_Dnmt3a_KI_counts_raw.csv.gz"), show_col_types = F)
+expr <- read_csv(here("testing", "data", "GSE72737_preprocessed_counts_human_HGNC_symbols.csv"), show_col_types = F)
+meta <- read_csv(here("testing", "data", "GSE72737_preprocessed_metadata.csv"), show_col_types = F)
+```
+
+Preview the first few lines of input data. The `normalize_and_run_GSEA()` requires that the input expression data's first column is named "hgnc_symbol".
+
+```{r render=lemon_print}
+head(expr)
+```
+
+Preview the first few lines of the metadata. The `normalize_and_run_GSEA()` requires that the input group metadata's columns are named "sample_id", "group".
+
+```{r}
+head(meta)
+```
+
+The samples should be in the same order in the expression data and metadata.
+
+```{r}
+stopifnot(identical(colnames(expr[,2:ncol(expr)]), meta$sample_id, attrib.as.set = F))
+```
+
+# Run GSEA
+
+```{r}
+normalize_and_run_GSEA(expr_data = expr, groups = meta, control = "DNMT3A_WT", permute_mode = "gene_set", out_name = "DNMT3Amut", out_dir = here("testing", "results"), GSEAforR = "/Users/jcrockett/Documents/jobs/code_sample_projects/GSEAforR/")
 ```
 

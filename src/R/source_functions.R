@@ -1,4 +1,4 @@
-# Source functions called by process_input_data.R
+# Source code for functions called by process_input_data.R
 
 #' Write CLS file
 #' 
