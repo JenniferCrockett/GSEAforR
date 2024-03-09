@@ -136,7 +136,7 @@ group_names=$(grep "# $control" $out_dir/$out_name'_phenolabels.cls')
 experimental=$(echo $group_names | cut -d ' ' -f 3)
 
 # Get latest version of hallmarks gmx file name
-gmx=$(ls $PIPELINE/resources/MSigDB_latest)
+gmx=$(ls -d $PIPELINE/resources/MSigDB_latest/*)
 gmx_name_short=$(basename $gmx ".Hs.symbols.gmt")
 
 # GSEA run command
