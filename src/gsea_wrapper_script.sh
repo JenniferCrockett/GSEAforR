@@ -144,7 +144,7 @@ gmx_name_short=$(basename $gmx ".Hs.symbols.gmt")
 
 {
     $PIPELINE/src/GSEA_4.3.3/gsea-cli.sh GSEA \
-        -res $out_dir/$out_name'_exprset.txt' \
+        -res $out_dir/$out_name'_normalized_exprset.txt' \
         -cls $out_dir/$out_name'_phenolabels.cls#'$experimental'_versus_'$control \
         -gmx $gmx \
         -collapse No_Collapse \

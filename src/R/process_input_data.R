@@ -139,12 +139,12 @@ expr_norm <- as.data.frame(normalized_counts) %>%
 expr_format <- mutate(expr_norm, DESCRIPTION = "na") %>%
   select(NAME = hgnc_symbol, DESCRIPTION, everything())
 
-expr_file <- str_glue("{out_basename}_exprset.txt")
+expr_file <- str_glue("{out_basename}_normalized_exprset.txt")
 
 write_delim(expr_format, expr_file, delim = "\t")
 print(paste("Saved expression dataset to:", expr_file))
 
 ## Phenotype labels
 ## categorical format: https://software.broadinstitute.org/cancer/software/gsea/wiki/index.php/Data_formats#CLS:_Categorical_.28e.g_tumor_vs_normal.29_class_file_format_.28.2A.cls.29
-# start here: make a function instead of this ugly mess
 write_cls(groups, out_basename)
+

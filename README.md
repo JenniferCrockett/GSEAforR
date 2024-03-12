@@ -1,4 +1,4 @@
-# GSEA functions for R
+# GSEAforR
 
 ## About
 
@@ -11,7 +11,7 @@ Examples of why this information is useful to researchers:
 * Researchers want to know how new potential pharmaceutical agents affect cells - which cellular pathways are turned on or off when the drug works on cells?
 * Researchers want to know why a particular gene mutation causes a genetic disease or cancer - which cellular pathways are turned on or off when the gene mutation is introduced into cells in the lab?
 
-### Why use _GSEA functions for R_?
+### Why use _GSEAforR_?
 
 Normally researchers run GSEA as follows:  
 
@@ -25,12 +25,13 @@ Normally researchers run GSEA as follows:
 
 Notice how the above workflow typically is performed in R, **except for the GSEA analysis steps**. _GSEA functions for R_ fills the gap to create a seamless workflow in R, by providing functions to execute GSEA in an R environment.  
 
-Here is the GSEA workflow using _GSEA functions for R_, **all in R:** 
+Here is the GSEA workflow using _GSEAforR_, **all in R:** 
 
 1. Load gene expression counts data.
 2. Format the data, in a much simpler format than what is required by the GSEA Data Formats guide.
-3. Run `normalize_and_run_GSEA()` to automatically perform: data normalization, data formatting for GSEA input, run the GSEA source code (open source code provided by the GSEA project), produce GSEA results files.
-4. Analyze the results files and plot the results using `load_GSEA_results()` and `plot_GSEA_results()`.  
+3. Run `normalize_and_run_GSEA()` to automatically perform: data normalization, data formatting for GSEA input, run the GSEA source code (open source code provided by the GSEA project), produce GSEA results files.   
+4. Load the GSEA results summary files using `load_GSEA_results()`.
+5. Plot the results using `plot_GSEA_results()`.  
 
 
 ## Installation
@@ -69,6 +70,10 @@ which R
 ```
 
 ## Usage
+
+```
+
+```
 
 ## Updates
 

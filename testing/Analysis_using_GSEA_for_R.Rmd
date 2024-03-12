@@ -9,11 +9,14 @@ output:
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_chunk$set(echo = TRUE, fig.width = 10, fig.height = 10)
 library(tidyverse)
 library(here)
 library(scico)
 library(lemon)
+source(here("src", "R", "user_functions.R"))
+
+theme_set(theme_light(base_size = 14))
 ```
 
 # Analysis description
@@ -31,8 +34,8 @@ Guryanova OA, Shank K, Spitzer B, Luciani L et al. DNMT3A mutations promote anth
 Load the preprocessed data generated in `GSEAforR/testing/data/Test_data_preprocessing.Rmd`. This consists of gene expression data and sample metadata.
 
 ```{r}
-expr <- read_csv(here("testing", "data", "GSE72737_preprocessed_counts_human_HGNC_symbols.csv"), show_col_types = F)
-meta <- read_csv(here("testing", "data", "GSE72737_preprocessed_metadata.csv"), show_col_types = F)
+expr <- read_tsv(here("testing", "data", "GSE72737_preprocessed_counts_human_HGNC_symbols.tsv"), show_col_types = F)
+meta <- read_tsv(here("testing", "data", "GSE72737_preprocessed_metadata.tsv"), show_col_types = F)
 ```
 
 Preview the first few lines of input data. The `normalize_and_run_GSEA()` requires that the input expression data's first column is named "hgnc_symbol".
@@ -56,6 +59,26 @@ stopifnot(identical(colnames(expr[,2:ncol(expr)]), meta$sample_id, attrib.as.set
 # Run GSEA
 
 ```{r}
-normalize_and_run_GSEA(expr_data = expr, groups = meta, control = "DNMT3A_WT", permute_mode = "gene_set", out_name = "DNMT3Amut", out_dir = here("testing", "results"), GSEAforR = "/Users/jcrockett/Documents/jobs/code_sample_projects/GSEAforR/")
+normalize_and_run_GSEA(expr_data = expr, 
+                       groups = meta, 
+                       control = "DNMT3A_WT", 
+                       permute_mode = "gene_set", 
+                       out_name = "DNMT3Amut", 
+                       out_dir = here("testing", "results"), 
+                       GSEAforR = "/Users/jcrockett/Documents/jobs/code_sample_projects/GSEAforR/")
 ```
+
+# Load GSEA results
+
+```{r}
+result <- load_GSEA_results(here("testing", "results", "DNMT3Amut_perm_gene_set_h.all.v2023.2.Gsea.1710129235807"))
+```
+
+# Plot GSEA results
+
+```{r GSEA_results_DNMT3A_Mut_vs_WT}
+plot_GSEA_results(result, fdr_q_cutoff = 0.05, control_group = "DNMT3A WT", experimental_group = "DNMT3A Mutant", order = -1, save_file = here("testing", "results", "GSEA_results_DNMT3A_Mut_vs_WT.png"))
+```
+
+
 
