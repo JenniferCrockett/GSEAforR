@@ -23,7 +23,7 @@ Normally researchers run GSEA as follows:
 6. Run GSEA to produce GSEA results files.
 7. Analyze the results files and plot the results _(typically performed in R)_.  
 
-Notice how the above workflow typically is performed in R, **except for the GSEA analysis steps**. _GSEA functions for R_ fills the gap to create a seamless workflow in R, by providing functions to execute GSEA in an R environment.  
+Notice how the above workflow typically is performed in R, **except for the GSEA analysis steps**. _GSEAforR_ fills the gap to create a seamless workflow in R, by providing functions to execute GSEA in an R environment.  
 
 Here is the GSEA workflow using _GSEAforR_, **all in R:** 
 
