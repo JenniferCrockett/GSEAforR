@@ -33,6 +33,7 @@ Here is the GSEA workflow using _GSEAforR_, **all in R:**
 4. Load the GSEA results summary files using `load_GSEA_results()`.
 5. Plot the results using `plot_GSEA_results()`.  
 
+<br/><br/>
 
 ## Installation
 
@@ -68,58 +69,51 @@ To see your R path, run the following in the terminal:
 which R
 ```
 
+<br/><br/>
+
 ## Usage
 
 **An example analysis is included in `GSEAforR/testing/Analysis_using_GSEAforR.Rmd`.**
 
-In an Rmarkdown document, load the GSEAforR functions:  
+1. In an Rmarkdown document, load the GSEAforR functions:  
 
 ```
 devtools::load_all("/absolute/path/to/GSEAforR/src/R")
 ```
 
-Formatting input data:  
+2. Formatting input data:  
 
 * Expression data: Gene symbols (rows) by patient IDs (columns) with RNA-seq non-normalized counts as values. The first column name must be *hgnc_symbol*.
 * Patient groups data: Patient IDs (column 1) and group labels (column 2). The column names must be *sample_id*, *group*. The patient IDs included in the *sample_id* column must be the same as the patient IDs included in the expressio data column names. 
 * Accepted formats: data.frame or filepath to a saved TSV file
 
-Normalize data and run GSEA analysis:  
+3. Normalize data and run GSEA analysis: `normalize_and_run_GSEA()` 
 
-```
-normalize_and_run_GSEA(expr_data = expression_data, 
-                       groups = groups_data, 
-                       control = "my_control_group_name", 
-                       permute_mode = "gene_set", 
-                       out_name = "my_experiment_name", 
-                       out_dir = "/absolute/path/to/my/output/directory", 
-                       GSEAforR = "/absolute/path/to/GSEAforR/")
-```
+![](./src/man_png/man_normalize_and_run_GSEA.png)
 
-Load GSEA results:  
+<br/>
 
-```
-result <- load_GSEA_results(gsea_results_dir = "./path/to/GSEA_results_directory")
-```
+4. Load GSEA results: `result <- load_GSEA_results()`
 
-Plot GSEA results:
+![](./src/man_png/man_load_GSEA_results.png)
 
-```
-plot_GSEA_results(result = result, 
-                  fdr_q_cutoff = 0.05, 
-                  control_group = "My Control Group Name", 
-                  experimental_group = "My Experimental Group Name", 
-                  order = -1, 
-                  save_file = "output_filename.png")
-```
+<br/>
 
-For detailed information about these functions, see their help documentation by running:  
+5. Plot GSEA results: `plot_GSEA_results()`
+
+![](./src/man_png/man_plot_GSEA_results.png)
+
+<br/>
+
+**Tip:** View the function help documentation in R by running:  
 
 ```
 ?normalize_and_run_GSEA
 ?load_GSEA_results
 ?plot_GSEA_results
 ```
+
+<br/><br/>
 
 ## Updates
 
@@ -128,6 +122,8 @@ Gene set updates are released by MSigDB annually or biannually. The current gene
 1. Create a new versioned directory in the `GSEAforR/resources` directory.
 2. To the versioned directory, download the new gene set (gmt) file by clicking on the "Gene Symbols" link under the H: hallmark gene set section on the following web page: https://www.gsea-msigdb.org/gsea/msigdb/human/collections.jsp#H
 3. Create a symlink for this file in the `GSEAforR/resources/MSigDB_latest` directory, and remove the symlink to the old file.
+
+<br/><br/>
 
 ## Sources
 
