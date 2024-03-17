@@ -4,7 +4,7 @@
 
 ### What is GSEA?
 
-[Gene Set Enrichment Analysis (GSEA, Broad Institute)](https://www.gsea-msigdb.org/gsea/index.jsp) is a widely-used software by biology researchers. It allows researchers to input gene expression data, which is a measure of how 'active' or 'inactive' genes are, for cells that have undergone different drug treatments, genetic treatments, or other experimental conditions (let's call this 'conditions' from now on). GSEA analyzes which pathways, represented by 'gene sets', are activated or inactivated by a particular condition. Determining which pathways respond to a condition can help researchers to understand the biological mechanism that is happening when cells experience that condition.  
+[Gene Set Enrichment Analysis (GSEA, Broad Institute)](https://www.gsea-msigdb.org/gsea/index.jsp) is a widely-used software by biology researchers. It allows researchers to input gene expression data, which is a measure of how 'active' or 'inactive' genes are, for cells that have undergone different drug treatments, genetic treatments, or other experimental conditions. GSEA analyzes which pathways, represented by 'gene sets', are activated or inactivated by a particular condition. Determining which pathways respond to a condition can help researchers to understand the biological mechanism that is happening when cells experience that condition.  
 
 Examples of why this information is useful to researchers:  
 
