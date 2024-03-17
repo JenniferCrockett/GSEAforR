@@ -22,9 +22,3 @@ write_cls <- function(groups, out_basename) {
   print(paste("Saved phenotype labels to:", cls_file))
 }
 
-# # function documentation (run code commented out)
-
-# setwd("~/Documents/jobs/code_sample_projects/GSEAforR/src")
-# cat("Package: GSEAforR\n", file = "DESCRIPTION")
-# cat("Version: 1.0.0\n", file = "DESCRIPTION", append = TRUE)
-# roxygen2::roxygenise()

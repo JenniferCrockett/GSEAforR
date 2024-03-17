@@ -1,4 +1,9 @@
-# User interface functions
+suppressPackageStartupMessages({
+  library(scico)
+  library(janitor)
+  library(tidyverse)
+})
+
 
 #' Normalize data and run GSEA 
 #' 
@@ -10,8 +15,7 @@
 #' @param out_name Name under which to save output files.
 #' @param out_dir Directory in which to save output files.
 #' @param GSEAforR Location of the GSEAforR directory.
-#' @param load_results Boolean (TRUE/FALSE) for whether to load the GSEA results files
-#' @return No return value. Produces a GSEA results directory.
+#' @returns No return value: saves to file.
 normalize_and_run_GSEA <- function(expr_data, groups, control, permute_mode, out_name, out_dir, GSEAforR) {
   # if inputs are TSVs, leave them as is; if inputs are dataframes, save as TSVs first
   if (is.data.frame(expr_data)) {
@@ -48,7 +52,7 @@ normalize_and_run_GSEA <- function(expr_data, groups, control, permute_mode, out
 #' 
 #' Loads the GSEA Hallmark Gene Set Analysis results summary files
 #' @param gsea_results_dir GSEA results directory filepath
-#' @return Dataframe of GSEA Hallmark Gene Set Analysis results
+#' @returns Dataframe of GSEA Hallmark Gene Set Analysis results
 load_GSEA_results <- function(gsea_results_dir) {
   gsea_results_files <- list.files(gsea_results_dir, pattern = "gsea_report_for_.*\\.tsv", full.names = T)
   
@@ -72,7 +76,7 @@ load_GSEA_results <- function(gsea_results_dir) {
 #' @param experimental_group Name of the experimental group
 #' @param order Order the pathways from largest to smallest NES value (order=1) or smallest to largest NES value (order=-1). Default value: 1
 #' @param save_file (Optional) Save the plot to this filepath
-#' @return Waterfall plot of GSEA results, with significant results indicated by colour
+#' @returns Waterfall plot of GSEA results, with significant results indicated by colour
 plot_GSEA_results <- function(result, fdr_q_cutoff, control_group, experimental_group, order=1, save_file=NULL) {
   if(!order %in% c(-1, 1)) {
     stop("order must be 1 or -1")

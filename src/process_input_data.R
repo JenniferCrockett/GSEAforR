@@ -36,7 +36,7 @@ arguments <- docopt(doc)
 # source("../../testing/load_test_inputs.R")
 #####
 pipeline <- arguments$pipeline
-source(str_glue("{pipeline}/src/R/source_functions.R"))
+source(str_glue("{pipeline}/src/source_functions.R"))
 
 # Data processing script begins
 

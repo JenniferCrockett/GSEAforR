@@ -122,7 +122,7 @@ source $CONDA_PROFILE
 conda activate $CONDA_ENV
 
 ## run the R script
-Rscript $PIPELINE/src/R/process_input_data.R --control $control $expr_data $groups $out_name $out_dir $PIPELINE
+Rscript $PIPELINE/src/process_input_data.R --control $control $expr_data $groups $out_name $out_dir $PIPELINE
 
 
 # Step 3: Run GSEA

@@ -55,9 +55,8 @@ sh ./setup/installation.sh
 
 * Update the `CONDA_ENV=` variable to the path to your GSEAforR conda environment
 * Update the `RPATH=` variable to your R path
-* Update the `PIPELINE=` variable to the absolute path where you saved the GSEAforR directory
 
-Tips:  
+**Tips:**  
 
 To see the path to the conda environment, run the following in the terminal:
 ```
@@ -71,13 +70,60 @@ which R
 
 ## Usage
 
+**An example analysis is included in `GSEAforR/testing/Analysis_using_GSEAforR.Rmd`.**
+
+In an Rmarkdown document, load the GSEAforR functions:  
+
+```
+devtools::load_all("/absolute/path/to/GSEAforR/src/R")
 ```
 
+Formatting input data:  
+
+* Expression data: Gene symbols (rows) by patient IDs (columns) with RNA-seq non-normalized counts as values. The first column name must be *hgnc_symbol*.
+* Patient groups data: Patient IDs (column 1) and group labels (column 2). The column names must be *sample_id*, *group*. The patient IDs included in the *sample_id* column must be the same as the patient IDs included in the expressio data column names. 
+* Accepted formats: data.frame or filepath to a saved TSV file
+
+Normalize data and run GSEA analysis:  
+
+```
+normalize_and_run_GSEA(expr_data = expression_data, 
+                       groups = groups_data, 
+                       control = "my_control_group_name", 
+                       permute_mode = "gene_set", 
+                       out_name = "my_experiment_name", 
+                       out_dir = "/absolute/path/to/my/output/directory", 
+                       GSEAforR = "/absolute/path/to/GSEAforR/")
+```
+
+Load GSEA results:  
+
+```
+result <- load_GSEA_results(gsea_results_dir = "./path/to/GSEA_results_directory")
+```
+
+Plot GSEA results:
+
+```
+plot_GSEA_results(result = result, 
+                  fdr_q_cutoff = 0.05, 
+                  control_group = "My Control Group Name", 
+                  experimental_group = "My Experimental Group Name", 
+                  order = -1, 
+                  save_file = "output_filename.png")
+```
+
+For detailed information about these functions, see their help documentation by running:  
+
+```
+?normalize_and_run_GSEA
+?load_GSEA_results
+?plot_GSEA_results
 ```
 
 ## Updates
 
-Gene set updates are released by MSigDB annually or biannually. The current gene set provided in this repository is the Hallmark Gene Set _h.all.v2023.2_. If you wish to manually update to a new file version:  
+Gene set updates are released by MSigDB annually or biannually. The current gene set provided in this repository is the Hallmark Gene Set _h.all.v2023.2_. If you wish to manually update to a new version:  
 
 1. Create a new versioned directory in the `GSEAforR/resources` directory.
 2. To the versioned directory, download the new gene set (gmt) file by clicking on the "Gene Symbols" link under the H: hallmark gene set section on the following web page: https://www.gsea-msigdb.org/gsea/msigdb/human/collections.jsp#H
@@ -88,4 +134,4 @@ Gene set updates are released by MSigDB annually or biannually. The current gene
 1. GSEA v4.3.3 for the command line: Downloaded from https://www.gsea-msigdb.org/gsea/downloads.jsp
 2. GSEA run command: Accessed using the "command" feature of the GSEA app (https://www.gsea-msigdb.org/gsea/downloads.jsp)
 3. GSEA Hallmark Gene Set: Downloaded from https://www.gsea-msigdb.org/gsea/msigdb/human/collections.jsp#H (Gene Symbols)
-4. Test data:
+4. Test data: Downloaded from the GEO data repository at https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE72737
